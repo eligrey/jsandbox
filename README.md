@@ -17,44 +17,7 @@ Where options is an object that contains any of the following properties:
  * `uri`
    * The URI of the worker script. Defaults to jsandbox.uri. (Optional)
 
-The following example code demonstrates how to use the jsandbox API. Every code string is evaluated in a separate sandbox so they cannot interact with each other or cause any harm.
-
-    jsandbox
-        .eval({
-          code    : "x=1;Math.round(Math.pow(input, ++x))",
-          input   : 36.565010597564445,
-          callback: function(n) {
-              console.log("number: ", n); // number: 1337
-          }
-      }).eval({
-          code   : "][];.]\\ (*# ($(! ~",
-          onerror: function(ex) {
-              console.log("syntax error: ", ex); // syntax error: [error object]
-          }
-      }).eval({
-          code    : '"foo"+input',
-          input   : "bar",
-          callback: function(str) {
-              console.log("string: ", str); // string: foobar
-          }
-      }).eval({
-          code    : "({q:1, w:2})",
-          callback: function(obj) {
-              console.log("object: ", obj); // object: object q=1 w=2
-          }
-      }).eval({
-          code    : "[1, 2, 3].concat(input)",
-          input   : [4, 5, 6],
-          callback: function(arr) {
-              console.log("array: ", arr); // array: [1, 2, 3, 4, 5, 6]
-          }
-      }).eval({
-          code    : "function x(z){this.y=z;};new x(input)",
-          input   : 4,
-          callback: function(x) {
-              console.log("new x: ", x); // new x: object y=4
-          }
-      });
+This [example code][1] demonstrates how to use the jsandbox API. Every code string is evaluated in a separate sandbox so they cannot interact with each other or cause any harm.
 
 License
 -------
@@ -69,3 +32,4 @@ jsandbox doubles as the worker used for sandbox evaluation so it needs to know t
 Please note: jsandbox.uri must be on the same domain as web workers follow same-domain restrictions.
 
 
+  [1]: http://gist.github.com/150443
