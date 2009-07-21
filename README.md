@@ -19,11 +19,6 @@ Where options is an object that contains any of the following properties:
 
 This [example code][1] demonstrates how to use the jsandbox API. Every code string is evaluated in a separate sandbox so they cannot interact with each other or cause any harm.
 
-License
--------
-
-jsandbox is dual-licensed under the GNU GPL v3 and the X11/MIT license.
-
 Requirements
 ------------
 
