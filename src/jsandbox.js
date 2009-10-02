@@ -1,41 +1,41 @@
 /*
-* JSandbox JavaScript Library v0.2
-* 2009-08-25
-* By Elijah Grey, http://eligrey.com
-*
-* License: GNU GPL v3 and the X11/MIT license
-*   See COPYING.md
-*/
+ * JSandbox JavaScript Library v0.2.1
+ * 2009-10-01
+ * By Elijah Grey, http://eligrey.com
+ *
+ * License: GNU GPL v3 and the X11/MIT license
+ *   See COPYING.md
+ */
+
+/*global Worker, JSON*/
 
 /*jslint white: true, onevar: true, browser: true, undef: true, nomen: true, eqeqeq: true, bitwise: true, regexp: true, strict: true, newcap: true, immed: true */
 
 "use strict";
 
-(function () {
+var Sandbox = (function () {
 	
-	if (typeof this.Worker === "undefined") {
+	if (typeof Worker === "undefined") {
 		return;
 	}
 	
-	if (typeof JSON === "undefined") {
-		(document.getElementsByTagName("head")[0] || document.documentElement)
-			.appendChild(document.createElement("script")).src = "http://github.com/eligrey/jsandbox/raw/master/min/json2.js";
-	}
-	
 	var
-	window     = this,
+	// repeatedly used strings (for minification)
+	$eval       = "eval",
+	$exec       = "exec",
+	$load       = "load",
+	$requests   = "requests",
+	$input      = "input",
+	$terminate  = "terminate",
+	$data       = "data",
+	$callback   = "callback",
+	$onerror    = "onerror",
+	$worker     = "worker",
+	$onresponse = "onresponse",
+	$prototype  = "prototype",
 	
-	// repeatedly used property names (for minification)
-	$eval      = "eval",
-	$exec      = "exec",
-	$load      = "load",
-	$requests  = "requests",
-	$input     = "input",
-	$terminate = "terminate",
-	$data      = "data",
-	$callback  = "callback",
-	$onerror   = "onerror",
-	$worker    = "worker",
+	$str_type   = "string",
+	$fun_type   = "function",
 	
 	
 	Sandbox = function () {
@@ -45,12 +45,12 @@
 			return new Sandbox();
 		}
 		
-		sandbox[$worker] = new window.Worker(Sandbox.url);
+		sandbox[$worker] = new Worker(Sandbox.url);
 		sandbox[$requests] = {};
 		
 		sandbox[$worker].onmessage = function (event) {
 			var data = event[$data], request;
-			if (typeof data === "string") { // parse JSON
+			if (typeof data === $str_type) { // parse JSON
 				try {
 					data = JSON.parse(data);
 				} catch (e) {
@@ -63,18 +63,18 @@
 			request = sandbox[$requests][data.id];
 			if (request) {
 				if (data.error) {
-					if (typeof sandbox[$onerror] === "function") {
+					if (typeof sandbox[$onerror] === $fun_type) {
 						sandbox[$onerror](data);
 					}
-					if (typeof request[$onerror] === "function") {
+					if (typeof request[$onerror] === $fun_type) {
 						request[$onerror].call(sandbox, data.error);
 					}
 				} else {
-					if (typeof sandbox.onresponse === "function") {
-						sandbox.onresponse(data);
+					if (typeof sandbox[$onresponse] === $fun_type) {
+						sandbox[$onresponse](data);
 					}
 				
-					if (typeof request[$callback] === "function") {
+					if (typeof request[$callback] === $fun_type) {
 						request[$callback].call(sandbox, data.results);
 					}
 				}
@@ -82,11 +82,11 @@
 			}
 		};
 	},
-	proto = Sandbox.prototype,
+	proto = Sandbox[$prototype],
 	createRequestMethod = function (method) {
 		proto[method] = function (options, callback, input, onerror) {
-			if (typeof options === "string" ||
-			    Object.prototype.toString.call(options) === "[object Array]" ||
+			if (typeof options === $str_type ||
+			    Object[$prototype].toString.call(options) === "[object Array]" ||
 			    arguments.length > 1)
 			{ // called in (data, callback, input, onerror) style
 				options = {
@@ -97,7 +97,7 @@
 				};
 			}
 			
-			if (method === $load && typeof options[$data] === "string") {
+			if (method === $load && typeof options[$data] === $str_type) {
 				options[$data] = [options[$data]];
 			}
 			
@@ -126,18 +126,20 @@
 		Sandbox[method] = function () {
 			var sandbox = new Sandbox();
 		
-			sandbox.onresponse = sandbox[$onerror] = function () {
+			sandbox[$onresponse] = sandbox[$onerror] = function () {
 				sandbox[$terminate]();
 				sandbox = null;
 			};
 		
-			proto[method].apply(sandbox, Array.prototype.slice.call(arguments));
+			Sandbox[$prototype][method].apply(sandbox, Array[$prototype].slice.call(arguments));
 			return Sandbox;
 		};
 	},
-	jsandboxNode,
+	doc = document,
+	linkElems = doc.getElementsByTagName("link"),
+	linkElem,
 	methods = [$eval, $load, $exec],
-	i = methods.length;
+	i = 3;
 	
 	while (i--) {
 		createRequestMethod(methods[i]);
@@ -160,9 +162,33 @@
 		return id;
 	};
 	
-	(document.querySelector &&
-		(jsandboxNode = document.querySelector('link[rel="Sandbox"][href]')) &&
-			(Sandbox.url = jsandboxNode.getAttribute("href")));
+	(typeof JSON === "undefined" &&
+		((doc.getElementsByTagName("head")[0] || doc.documentElement)
+			.appendChild(doc.createElement("script")).src =
+				"http://github.com/eligrey/jsandbox/raw/master/min/json2.js"
+		)
+	);
 	
-	window.Sandbox = Sandbox;
-}.call(this)); // in ES5 strict `this' isn't `this' for this function, use .call(this)
+	i = linkElems.length;
+	while (i--) {
+		linkElem = linkElems[i];
+		if (linkElem.getAttribute("rel") === "jsandbox") {
+			(linkElem.hasAttribute("href") &&
+				(Sandbox.url = linkElem.getAttribute("href"))
+			);
+			break;
+		}
+	}
+	
+	// dereference no-longer used variables
+	proto               =
+	createRequestMethod =
+	doc                 =
+	linkElems           =
+	linkElem            =
+	methods             =
+	i                   =
+	undefined;
+	
+	return Sandbox;
+}());

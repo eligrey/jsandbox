@@ -3,24 +3,33 @@
 <head>
 <meta charset="utf-8" />
 <title>JSandbox test suite</title>
+<!--
+The new, standalone, QUnit has async test bugs and can't be used in this test suite
+<link rel="stylesheet" type="text/css" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" title="QUnit" />
+<script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+-->
 <link rel="stylesheet" type="text/css" href="http://view.jquery.com/trunk/qunit/testsuite.css" title="QUnit" />
-<link rel="Sandbox" href="src/jsandbox-worker.js" />
-<!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="http://view.jquery.com/trunk/qunit/testrunner.js"></script>
+
+<link rel="jsandbox" href="src/jsandbox-worker.js" />
 <script type="text/javascript" src="src/jsandbox.js"></script>
 </head>
 <body>
-<h1>JSandbox test suite</h1>
+<h1 id="qunit-header">JSandbox test suite</h1>
+<!--<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-main"></div>-->
 <h2 id="banner"></h2>
 <h2 id="userAgent"></h2>
 <ol id="tests"></ol>
 <div id="main"></div>
-<script type="text/javascript">
-// XXX: use a better unit testing framework, preferably one that is good at asynchronous tests
-// XXX: make these tests not suck
 
-window.onload = function() {
+<script type="text/javascript">
+//<![CDATA[
+if (Sandbox) window.onload = function() {
 
 module("JSandbox");
 
@@ -121,6 +130,7 @@ test("premature ending", function() {
 });
 
 };
+//]]>
 </script>
 </body>
 </html>

@@ -1,17 +1,20 @@
 JSandbox
 ========
 
-*Version 0.2*
+*Version 0.2.1*
 
-<strong>JS</strong>andbox is an open source <strong>J</strong>ava<strong>S</strong>cript sandboxing library that makes use of HTML5 web workers.
-JSandbox makes it possible to run untrusted JavaScript without having to worry about any potential dangers.
+<strong>JS</strong>andbox is an open source <strong>J</strong>ava<strong>S</strong>cript
+sandboxing library that makes use of HTML5 web workers. JSandbox makes it possible to run
+untrusted JavaScript without having to worry about any potential dangers.
 
 Getting Started
 ---------------
 
  1. [Download JSandbox][download].
- 2. Include `<link rel="jsandbox" href="path/to/jsandbox-worker.js"/>` in the head of your document.
- 3. Place `<script type="text/javascript" src="path/to/jsandbox.js"></script>` anywhere after the `<link>` tag.
+ 2. Include `<link rel="jsandbox" href="path/to/jsandbox-worker.js"/>` in the head of
+    your document.
+ 3. Place `<script type="text/javascript" src="path/to/jsandbox.js"></script>`
+    anywhere after the `<link>` tag.
  4. Read the API documentation below.
 
 
@@ -22,6 +25,8 @@ Example Code
 
 This [example code][example] demonstrates the JSandbox API.
 
+  [example]: http://gist.github.com/175160
+
 Tested Working Browsers
 -----------------------
 
@@ -31,38 +36,41 @@ Tested Working Browsers
 API
 ---
 
-Instead of using a `<link>` tag, you can define `Sandbox.url` to specify the location of the JSandbox worker script.
+Instead of using a `<link>` tag, you can define `Sandbox.url` to specify the location
+of the JSandbox worker script.
 
-All of these methods can be accessed on the `Sandbox` constructor (in one-use sandboxes) and `Sandbox` instances:
+All of these methods can be accessed on the `Sandbox` constructor (in one-use sandboxes)
+and `Sandbox` instances:
 
 <dl>
   <dt><code>eval(options)</code></dt>
   <dd>
     <code>eval()</code>s <code>options.data</code>. If <code>options.callback</code> is a
-    function, it is passed the results as long as no errors occur. If <code>options.onerror</code>
-    is a function and an error occurs, it is passed the error object. The code is
-    <code>eval()</code>ed in a top-level pseudo-function-scope. If you define a variable using
-    a <code>var</code> statement, the variable is private to the eval. <code>this</code> is
-    still the global object. If this method is called on <code>jsandbox</code>, the
-    <code>jsandbox</code> object is returned. Otherwise, the ID of the request is returned.
+    function, it is passed the results as long as no errors occur. If
+    <code>options.onerror</code> is a function and an error occurs, it is passed the error
+    object. The code is <code>eval()</code>ed in a top-level pseudo-function-scope. If you
+    define a variable using a <code>var</code> statement, the variable is private to the
+    eval. <code>this</code> is still the global object. If this method is called on
+    <code>jsandbox</code>, the <code>jsandbox</code> object is returned. Otherwise, the ID
+    of the request is returned.
   </dd>
 
   <dt><code>exec(options)</code></dt>
   <dd>
     Executes code in a faster method than <code>eval</code>, but does not pass a
-    return value to the callback function (though the function is still called if defined).
-    Unlike <code>eval</code>, the code is run in the global scope (<code>var</code>
-    statements affect <code>this</code>).
+    return value to the callback function (though the function is still called if
+    defined). Unlike <code>eval</code>, the code is run in the global scope
+    (<code>var</code> statements affect <code>this</code>).
   </dd>
 
   <dt><code>load(options)</code></dt>
   <dd>
     If <code>options.data</code> is a string, <code>options.data</code> will attempt to be
-    loaded in the sandbox. If <code>options.data</code> is an array, every string it contains
-    will attempt be loaded. If <code>options.onerror</code> is a function and an error is
-    thrown while parsing a script or a script could not be resolved, <code>options.onerror</code>
-    is passed the error object. Otherwise, <code>options.callback</code> is called when the scripts
-    are finished loading.
+    loaded in the sandbox. If <code>options.data</code> is an array, every string it
+    contains will attempt be loaded. If <code>options.onerror</code> is a function and an
+    error is thrown while parsing a script or a script could not be resolved,
+    <code>options.onerror</code> is passed the error object. Otherwise,
+    <code>options.callback</code> is called when the scripts are finished loading.
   </dd>
 </dl>
 
@@ -86,23 +94,28 @@ The following are all of the properties that may be included in an `options` obj
 <dl>
   <dt><code>data</code> [<strong>Required</strong>]</dt>
   <dd>
-    In the case of <code>eval</code> and <code>exec</code>, it is the code to execute. In the
-    case of <code>load</code>, it is an array of the script(s) to load. If you only need to load
-    one script, just pass a string instead.
+    In the case of <code>eval</code> and <code>exec</code>, it is the code to execute. In
+    the case of <code>load</code>, it is an array of the script(s) to load. If you only
+    need to load one script, just pass a string instead.
   </dd>
 
   <dt><code>input</code></dt>
-  <dd>The input data available to the code via the input variable. The input should be JSON-convertible.</dd>
+  <dd>
+    The input data available to the code via the input variable. The input should be
+    JSON-convertible.
+  </dd>
 
   <dt><code>callback</code></dt>
-  <dd>The callback to pass the return value of the executed code if no exceptions were thrown.</dd>
+  <dd>
+    The callback to pass the return value of the executed code if no exceptions were
+    thrown.
+  </dd>
 
   <dt><code>onerror</code></dt>
   <dd>The callback to pass an exception if one is thrown upon executing the code.</dd>
 </dl>
 
-Any function that takes an options object can also be called using the following positional-arguments syntax:
+Any function that takes an options object can also be called using the following
+positional-arguments syntax:
 
     someFunction(data [, callback] [, input] [, onerror]);
-
-  [example]: http://gist.github.com/175160

@@ -1,22 +1,23 @@
 /*
-* JSandbox worker v0.2
-* 2009-08-25
-* By Elijah Grey, http://eligrey.com
-*
-* License: GNU GPL v3 and the X11/MIT license
-*   See COPYING.md
-*/
+ * JSandbox worker v0.2.0.1
+ * 2009-10-01
+ * By Elijah Grey, http://eligrey.com
+ *
+ * License: GNU GPL v3 and the X11/MIT license
+ *   See COPYING.md
+ */
 
 // This file is requested every time a new sandbox is created.
 // Make sure to include a Cache-Control header when serving this over HTTP.
 
+/*global self, JSON*/
+
 /*jslint white: true, evil: true, undef: true, eqeqeq: true, immed: true */
 
-(function (globalEval) {
+(function (window, globalEval) {
 	"use strict";
 	
 	var
-	window        = this,
 	postMessage   = window.postMessage,
 	importScripts = window.importScripts;
 	
@@ -36,8 +37,6 @@
 				return JSONstringify(this);
 			}
 		};
-		
-		// optimized to have no unnecessary conditional block scopes
 		
 		(typeof request === "string" && // parse JSON
 			(request = JSONparse(request)));
@@ -72,29 +71,29 @@
 				response.error = e;
 			}
 			delete window.input;
+			delete window.onmessage; // in case the code defined it
 			return response;
 		}());
 	};
 	
 	if (window.addEventListener) {
 		window.addEventListener("message", messageHandler, false);
-		window.addEventListener    = 
-		window.removeEventListener =
-		undefined;
 	} else if (window.attachEvent) { // for compatibility with future IE
 		window.attachEvent("onmessage", messageHandler);
-		window.attachEvent =
-		window.detachEvent =
-		undefined;
 	}
 	
 	window.window = window; // provide a window object for scripts
 	
-	// dereference unsafe functions in case the last loop didn't get these
+	// dereference unsafe functions
+	// some might not be dereferenced: https://bugzilla.mozilla.org/show_bug.cgi?id=512464
+	window.addEventListener    = 
+	window.removeEventListener =
+	window.attachEvent         =
+	window.detachEvent         =
 	window.importScripts       =
 	window.XMLHttpRequest      =
 	window.postMessage         =
 	window.dispatchEvent       =
 	undefined;
 	
-}.call(this, eval)); // in ES5 strict `this' isn't `this' for this function, use .call(this)
+}(self, eval));
