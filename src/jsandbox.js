@@ -64,14 +64,14 @@ var Sandbox = (function () {
 			if (request) {
 				if (data.error) {
 					if (typeof sandbox[$onerror] === $fun_type) {
-						sandbox[$onerror](data);
+						sandbox[$onerror](data, request);
 					}
 					if (typeof request[$onerror] === $fun_type) {
 						request[$onerror].call(sandbox, data.error);
 					}
 				} else {
 					if (typeof sandbox[$onresponse] === $fun_type) {
-						sandbox[$onresponse](data);
+						sandbox[$onresponse](data, request);
 					}
 				
 					if (typeof request[$callback] === $fun_type) {

@@ -8,6 +8,7 @@ JSandbox Changelog
  * Preparing test suite for the new, standalone, QUnit library. The library still has
    asynchronous bugs so it can't be used yet.
  * `self.onmessage` is deleted after every time code is run in case the code defines it.
+ * Instance catch-alls are now passed the request object as their second argument.
 
 0.2
 -----
