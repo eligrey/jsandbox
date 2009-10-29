@@ -1,5 +1,5 @@
 /*
- * JSandbox worker v0.2.0.1
+ * JSandbox worker v0.2.0.2
  * 2009-10-01
  * By Elijah Grey, http://eligrey.com
  *
@@ -46,6 +46,7 @@
 		postMessage(function () {
 			var data = request.data;
 			window.input = request.input;
+			
 			try {
 				switch (request.method) {
 				
@@ -55,21 +56,15 @@
 				case "exec":
 					importScripts("data:," + encodeURIComponent(data));
 					break;
-			//	case "load":
-			//		importScripts.apply(window, data);
-				// replace the case below with the faster case above once Chromium issue 20192 is fixed
-				// http://code.google.com/p/chromium/issues/detail?id=20192
 				case "load":
-					var len = data.length,
-					    i = 0;
-					for (; i < len; i++) {
-						importScripts(data[i]);
-					}
+					importScripts.apply(window, data);
+					break;
 				
 				}
 			} catch (e) {
 				response.error = e;
 			}
+			
 			delete window.input;
 			delete window.onmessage; // in case the code defined it
 			return response;
@@ -86,6 +81,7 @@
 	
 	// dereference unsafe functions
 	// some might not be dereferenced: https://bugzilla.mozilla.org/show_bug.cgi?id=512464
+	window.Worker              =
 	window.addEventListener    = 
 	window.removeEventListener =
 	window.attachEvent         =

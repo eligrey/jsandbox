@@ -45,14 +45,15 @@ test("options", function() {
 });
 
 test("restricting functions", function() {
-	var tests = 6,
+	var tests = 7,
 	done = 0;
 	expect(tests);
 	stop();
 	
-	// these two tests need to pass or else Sandbox is insecure
+	// these three tests need to pass or else Sandbox is insecure
 	Sandbox.eval('typeof XMLHttpRequest==="undefined"', function(r) { ok(r, "XMLHttpRequest");if(++done==tests)start(); });
 	Sandbox.eval('typeof importScripts==="undefined"', function(r) { ok(r, "importScripts");if(++done==tests)start(); });
+	Sandbox.eval('typeof Worker==="undefined"', function(r) { ok(r, "Worker");if(++done==tests)start(); });
 	
 	// https://bugzilla.mozilla.org/show_bug.cgi?id=512464
 	Sandbox.eval('typeof postMessage==="undefined"', function(r) { ok(r, "postMessage");if(++done==tests)start(); });
