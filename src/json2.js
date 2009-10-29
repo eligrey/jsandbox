@@ -1,6 +1,7 @@
 /*
+    Slightly modified version of
     http://www.JSON.org/json2.js
-    2009-08-17
+    2009-09-29
 
     Public Domain.
 
@@ -144,7 +145,7 @@
     NOT CONTROL.
 */
 
-/*jslint evil: true */
+/*jslint evil: true, strict: true */
 
 /*members "", "\b", "\t", "\n", "\f", "\r", "\"", JSON, "\\", apply,
     call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
@@ -158,8 +159,8 @@
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-if (!this.JSON) {
-    this.JSON = {};
+if (typeof JSON === "undefined") {
+    var JSON = {};
 }
 
 (function () {
