@@ -1,6 +1,15 @@
 JSandbox Changelog
 ===============
 
+(Worker) 0.2.0.2
+----------------
+
+ * Blocked access to the `Worker` constructor.
+ * Now using `importScripts.apply` as
+   [Chromium issue 20192](http://code.google.com/p/chromium/issues/detail?id=20192)
+   has been fixed.
+
+
 0.2.1
 -----
 
@@ -9,6 +18,7 @@ JSandbox Changelog
    asynchronous bugs so it can't be used yet.
  * `self.onmessage` is deleted after every time code is run in case the code defines it.
  * Instance catch-alls are now passed the request object as their second argument.
+
 
 0.2
 -----

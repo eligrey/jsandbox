@@ -11,7 +11,7 @@ Getting Started
 ---------------
 
  1. [Download JSandbox][download].
- 2. Include `<link rel="jsandbox" href="path/to/jsandbox-worker.js"/>` in the head of
+ 2. Include `<link rel="jsandbox" href="path/to/jsandbox-worker.js" />` in the head of
     your document.
  3. Place `<script type="text/javascript" src="path/to/jsandbox.js"></script>`
     anywhere after the `<link>` tag.

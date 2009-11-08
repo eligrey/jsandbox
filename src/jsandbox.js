@@ -1,6 +1,6 @@
 /*
  * JSandbox JavaScript Library v0.2.1
- * 2009-10-01
+ * 2009-11-08
  * By Elijah Grey, http://eligrey.com
  *
  * License: GNU GPL v3 and the X11/MIT license
@@ -9,11 +9,11 @@
 
 /*global Worker, JSON*/
 
-/*jslint white: true, onevar: true, browser: true, undef: true, nomen: true, eqeqeq: true, bitwise: true, regexp: true, strict: true, newcap: true, immed: true */
-
-"use strict";
+/*jslint white: true, onevar: true, browser: true, undef: true, nomen: true, eqeqeq: true,
+bitwise: true, regexp: true, newcap: true, immed: true, maxerr: 1000, maxlen: 90 */
 
 var Sandbox = (function () {
+	"use strict";
 	
 	if (typeof Worker === "undefined") {
 		return;
@@ -131,7 +131,10 @@ var Sandbox = (function () {
 				sandbox = null;
 			};
 		
-			Sandbox[$prototype][method].apply(sandbox, Array[$prototype].slice.call(arguments));
+			Sandbox[$prototype][method].apply(
+				sandbox,
+				Array[$prototype].slice.call(arguments)
+			);
 			return Sandbox;
 		};
 	},
@@ -172,10 +175,10 @@ var Sandbox = (function () {
 	i = linkElems.length;
 	while (i--) {
 		linkElem = linkElems[i];
-		if (linkElem.getAttribute("rel") === "jsandbox") {
-			(linkElem.hasAttribute("href") &&
-				(Sandbox.url = linkElem.getAttribute("href"))
-			);
+		if (linkElem.getAttribute("rel") === "jsandbox" &&
+		    linkElem.hasAttribute("href"))
+		{
+			Sandbox.url = linkElem.getAttribute("href");
 			break;
 		}
 	}
