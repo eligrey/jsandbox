@@ -1,5 +1,5 @@
 /*
- * JSandbox worker v0.2.0.2
+ * JSandbox worker v0.2.0.3
  * 2009-10-01
  * By Elijah Grey, http://eligrey.com
  *
@@ -14,82 +14,88 @@
 
 /*jslint white: true, evil: true, undef: true, eqeqeq: true, immed: true */
 
-(function (window, globalEval) {
+(function (self, globalEval) {
 	"use strict";
 	
 	var
-	postMessage   = window.postMessage,
-	importScripts = window.importScripts;
+	postMessage   = self.postMessage,
+	importScripts = self.importScripts;
 	
-	if (typeof JSON === "undefined") {
+	if (typeof self.JSON === "undefined") {
 		importScripts("http://github.com/eligrey/jsandbox/raw/master/min/json2.js");
 	}
 	
-	// need to store JSON.parse and JSON.stringify in case they get changed
+	// need to store JSON, JSON.parse and JSON.stringify in case they get changed
 	var
-	JSONstringify     = JSON.stringify,
-	JSONparse         = JSON.parse,
+	json              = self.JSON,
+	jsonStringify     = json.stringify,
+	jsonParse         = json.parse,
+	jsonStringifyThis = function () { // for compatability with WebKit/Chrome
+		return jsonStringify.call(json, this);
+	},
 	
 	messageHandler = function (event) {
 		var request = event.data,
 		response = {
-			toString : function () { // for compatability with WebKit/Chrome
-				return JSONstringify(this);
-			}
+			toString : jsonStringifyThis
 		};
 		
-		(typeof request === "string" && // parse JSON
-			(request = JSONparse(request)));
+		if (typeof request === "string") { // parse JSON
+			request = jsonParse.call(json, request);
+		}
 		
 		response.id = request.id;
 		
-		postMessage(function () {
-			var data = request.data;
-			window.input = request.input;
+		var data = request.data;
+		self.input = request.input;
+		
+		try {
+			switch (request.method) {
 			
-			try {
-				switch (request.method) {
-				
-				case "eval": // JSLint has something against indenting cases
-					response.results = globalEval(data);
-					break;
-				case "exec":
-					importScripts("data:," + encodeURIComponent(data));
-					break;
-				case "load":
-					importScripts.apply(window, data);
-					break;
-				
-				}
-			} catch (e) {
-				response.error = e;
+			case "eval": // JSLint has something against indenting cases
+				response.results = globalEval(data);
+				break;
+			case "exec":
+				importScripts("data:application/javascript," +
+				              encodeURIComponent(data));
+				break;
+			case "load":
+				importScripts.apply(self, data);
+				break;
+			
 			}
-			
-			delete window.input;
-			delete window.onmessage; // in case the code defined it
-			return response;
-		}());
+		} catch (e) {
+			response.error = e;
+		}
+		
+		delete self.input;
+		delete self.onmessage; // in case the code defined it
+		
+		postMessage(response);
 	};
 	
-	if (window.addEventListener) {
-		window.addEventListener("message", messageHandler, false);
-	} else if (window.attachEvent) { // for compatibility with future IE
-		window.attachEvent("onmessage", messageHandler);
+	if (self.addEventListener) {
+		self.addEventListener("message", messageHandler, false);
+	} else if (self.attachEvent) { // for compatibility with future IE
+		self.attachEvent("onmessage", messageHandler);
 	}
 	
-	window.window = window; // provide a window object for scripts
+	self.window = self; // provide a window object for scripts
 	
 	// dereference unsafe functions
 	// some might not be dereferenced: https://bugzilla.mozilla.org/show_bug.cgi?id=512464
-	window.Worker              =
-	window.addEventListener    = 
-	window.removeEventListener =
-	window.attachEvent         =
-	window.detachEvent         =
-	window.importScripts       =
-	window.XMLHttpRequest      =
-	window.postMessage         =
-	window.dispatchEvent       =
+	self.Worker              =
+	self.addEventListener    = 
+	self.removeEventListener =
+	self.importScripts       =
+	self.XMLHttpRequest      =
+	self.postMessage         =
+	self.dispatchEvent       =
+	// in case IE implements web workers
+	self.attachEvent         =
+	self.detachEvent         =
+	self.ActiveXObject       =
+	
 	undefined;
 	
 }(self, eval));

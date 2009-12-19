@@ -1,7 +1,7 @@
 JSandbox
 ========
 
-*Version 0.2.1*
+*Version 0.2.2*
 
 <strong>JS</strong>andbox is an open source <strong>J</strong>ava<strong>S</strong>cript
 sandboxing library that makes use of HTML5 web workers. JSandbox makes it possible to run
@@ -11,14 +11,15 @@ Getting Started
 ---------------
 
  1. [Download JSandbox][download].
- 2. Include `<link rel="jsandbox" href="path/to/jsandbox-worker.js" />` in the head of
-    your document.
+ 2. Include `<link rel="jsandbox" href="path/to/jsandbox-worker.js" />` anywhere in your
+    document. I recommend putting it in the document's `<head>`.
  3. Place `<script type="text/javascript" src="path/to/jsandbox.js"></script>`
     anywhere after the `<link>` tag.
  4. Read the API documentation below.
 
 
-[download]: http://github.com/eligrey/jsandbox/zipball/master
+  [download]: http://github.com/eligrey/jsandbox/zipball/master
+
 
 Example Code
 ------------
@@ -27,20 +28,41 @@ This [example code][example] demonstrates the JSandbox API.
 
   [example]: http://gist.github.com/175160
 
+
 Tested Working Browsers
 -----------------------
 
 * Firefox 3.5+
-* Google Chrome 4
+* Google Chrome 4+
+
 
 API
 ---
 
-Instead of using a `<link>` tag, you can define `Sandbox.url` to specify the location
+### Worker script location
+
+Instead of using a `<link>` tag, you may define `JSandbox.url` to specify the location
 of the JSandbox worker script.
 
-All of these methods can be accessed on the `Sandbox` constructor (in one-use sandboxes)
-and `Sandbox` instances:
+
+### Waiting for the json2.js API to load
+
+In browsers that do not natively support the json2.js API, a modified version of json2.js
+is loaded. To support these browsers, use the following code:
+
+    JSandbox && JSandbox.ready(function () {
+      // your code that uses JSandbox here
+    });
+
+In browsers that natively support the json2.js API, the function passed to `JSandbox.ready`
+is immediately called. In other browsers, it is added to a queue which is processed after
+the API is loaded.
+
+
+### Methods
+
+All of these methods can be accessed on the `JSandbox` constructor (in one-use sandboxes)
+and `JSandbox` instances:
 
 <dl>
   <dt><code>eval(options)</code></dt>
@@ -74,6 +96,8 @@ and `Sandbox` instances:
   </dd>
 </dl>
 
+#### Instance-only methods
+
 These methods can only be on jsandbox instances:
 
 <dl>
@@ -87,7 +111,7 @@ These methods can only be on jsandbox instances:
   </dd>
 </dl>
 
-### `options` object.
+### `options` object
 
 The following are all of the properties that may be included in an `options` object.
 
@@ -115,7 +139,12 @@ The following are all of the properties that may be included in an `options` obj
   <dd>The callback to pass an exception if one is thrown upon executing the code.</dd>
 </dl>
 
-Any function that takes an options object can also be called using the following
+
+### Alternative syntax
+
+Any method that takes an options object can also be called using the following
 positional-arguments syntax:
 
-    someFunction(data [, callback] [, input] [, onerror]);
+    someMethod(data [, callback] [, input] [, onerror]);
+
+The global `JSandbox` object can also be referenced as `Sandbox`.

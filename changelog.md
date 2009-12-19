@@ -1,5 +1,24 @@
 JSandbox Changelog
-===============
+==================
+
+
+(Worker) 0.2.0.3
+----------------
+
+ * Now also dereferencing `ActiveXObject` for when or if IE ever supports web workers.
+ * Same thing as jsandbox.js v0.2.2 in regards to the json2.js API.
+ * Added a media type to the data: URI used in exec.
+
+
+0.2.2
+-----
+
+ * Added a `Sandbox.ready(aFunction)` method that calls `aFunction` when JSandbox is
+   ready (json2.js API is functional).
+ * Added a global `JSandbox` constructor which is just another reference to `Sandbox`.
+ * json2.js API methods are now called using JSON as it's `this` object, just in case
+   it causes trouble for a JSON implementation.
+
 
 (Worker) 0.2.0.2
 ----------------

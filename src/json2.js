@@ -1,13 +1,21 @@
 /*
-    Slightly modified version of
-    http://www.JSON.org/json2.js
-    2009-09-29
+    Slightly modified version of http://www.JSON.org/json2.js
+    For use in web browsers and web worker threads.
+    2009-12-18
 
     Public Domain.
 
     NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
     See http://www.JSON.org/js.html
+
+
+    This code should be minified before deployment.
+    See http://javascript.crockford.com/jsmin.html
+
+    USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
+    NOT CONTROL.
+
 
     This file creates a global JSON object containing two methods: stringify
     and parse.
@@ -137,12 +145,6 @@
 
     This is a reference implementation. You are free to copy, modify, or
     redistribute.
-
-    This code should be minified before deployment.
-    See http://javascript.crockford.com/jsmin.html
-
-    USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
-    NOT CONTROL.
 */
 
 /*jslint evil: true, strict: true */
@@ -154,13 +156,14 @@
     test, toJSON, toString, valueOf
 */
 
+
 "use strict";
 
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-if (typeof JSON === "undefined") {
-    var JSON = {};
+if (!self.JSON) {
+    self.JSON = {};
 }
 
 (function () {
@@ -479,4 +482,3 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
         };
     }
 }());
-
