@@ -10,11 +10,11 @@
 /*global self */
 
 /*jslint white: true, undef: true, nomen: true, eqeqeq: true, bitwise: true, regexp: true,
-newcap: true, immed: true, maxerr: 1000, maxlen: 90 */
+newcap: true, immed: true, maxerr: 1000, maxlen: 90, strict: true */
 
-var JSandbox = (function (self, globalEval) {
-	"use strict";
-	
+"use strict";
+
+var JSandbox = (function (self) {
 	var undef_type = "undefined",
 	doc = self.document,
 	Worker = self.Worker;
@@ -214,5 +214,5 @@ var JSandbox = (function (self, globalEval) {
 	}
 	
 	return Sandbox;
-}(self, eval)),
+}(self)),
 Sandbox = JSandbox;
