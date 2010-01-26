@@ -1,6 +1,18 @@
 JSandbox Changelog
 ==================
 
+(Worker) 0.2.0.4
+----------------
+
+ * json2.js is now included directly in the script.
+
+
+0.2.3
+-----
+
+ * Removed `JSandbox.ready()` as json2.js is now included directly in the script.
+ * The script now works as a worker.
+
 
 (Worker) 0.2.0.3
 ----------------
@@ -13,7 +25,7 @@ JSandbox Changelog
 0.2.2
 -----
 
- * Added a `Sandbox.ready(aFunction)` method that calls `aFunction` when JSandbox is
+ * Added a `JSandbox.ready(aFunction)` method that calls `aFunction` when JSandbox is
    ready (json2.js API is functional).
  * Added a global `JSandbox` constructor which is just another reference to `Sandbox`.
  * json2.js API methods are now called using JSON as it's `this` object, just in case
