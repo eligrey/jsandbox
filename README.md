@@ -1,7 +1,7 @@
 JSandbox
 ========
 
-*Version 0.2.2*
+*Version 0.2.3*
 
 <strong>JS</strong>andbox is an open source <strong>J</strong>ava<strong>S</strong>cript
 sandboxing library that makes use of HTML5 web workers. JSandbox makes it possible to run
