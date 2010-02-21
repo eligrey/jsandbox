@@ -45,20 +45,6 @@ Instead of using a `<link>` tag, you may define `JSandbox.url` to specify the lo
 of the JSandbox worker script.
 
 
-### Waiting for the json2.js API to load
-
-In browsers that do not natively support the json2.js API, a modified version of json2.js
-is loaded. To support these browsers, use the following code:
-
-    JSandbox && JSandbox.ready(function () {
-      // your code that uses JSandbox here
-    });
-
-In browsers that natively support the json2.js API, the function passed to `JSandbox.ready`
-is immediately called. In other browsers, it is added to a queue which is processed after
-the API is loaded.
-
-
 ### Methods
 
 All of these methods can be accessed on the `JSandbox` constructor (in one-use sandboxes)
@@ -73,7 +59,7 @@ and `JSandbox` instances:
     object. The code is <code>eval()</code>ed in a top-level pseudo-function-scope. If you
     define a variable using a <code>var</code> statement, the variable is private to the
     eval. <code>this</code> is still the global object. If this method is called on
-    <code>jsandbox</code>, the <code>jsandbox</code> object is returned. Otherwise, the ID
+    <code>JSandbox</code>, the <code>JSandbox</code> object is returned. Otherwise, the ID
     of the request is returned.
   </dd>
 
@@ -98,7 +84,7 @@ and `JSandbox` instances:
 
 #### Instance-only methods
 
-These methods can only be on jsandbox instances:
+These methods can only be on JSandbox instances:
 
 <dl>
   <dt><code>abort(requestID)</code></dt>
@@ -107,7 +93,7 @@ These methods can only be on jsandbox instances:
   <dt><code>terminate()</code></dt>
   <dd>
     Terminates the worker thread and any pending requests are aborted. You cannot use the
-    jsandbox instance on which you called this method after it is called.
+    JSandbox instance on which you called this method after it is called.
   </dd>
 </dl>
 
