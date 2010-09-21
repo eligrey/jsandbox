@@ -12,6 +12,8 @@
 /*jslint undef: true, nomen: true, eqeqeq: true, bitwise: true, regexp: true,
 newcap: true, immed: true, maxerr: 1000, strict: true */
 
+/*! @source http://purl.eligrey.com/github/jsandbox/blob/master/src/jsandbox.js*/
+
 "use strict";
 
 var JSandbox = (function (self) {

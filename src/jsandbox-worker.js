@@ -14,6 +14,8 @@
 
 /*jslint evil: true, undef: true, eqeqeq: true, immed: true */
 
+/*! @source http://purl.eligrey.com/github/jsandbox/blob/master/src/jsandbox-worker.js*/
+
 (function (self, globalEval) {
 	"use strict";
 	
