@@ -2,9 +2,8 @@
  * JSandbox worker v0.2.0.4
  * 2010-01-25
  * By Elijah Grey, http://eligrey.com
- *
- * License: GNU GPL v3 and the X11/MIT license
- *   See COPYING.md
+ * Licensed under the X11/MIT License
+ *   See LICENSE.md
  */
 
 // This file is requested every time a new sandbox is created.

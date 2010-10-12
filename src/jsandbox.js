@@ -2,9 +2,8 @@
  * JSandbox JavaScript Library v0.2.3
  * 2009-01-25
  * By Elijah Grey, http://eligrey.com
- *
- * License: GNU GPL v3 and the X11/MIT license
- *   See COPYING.md
+ * Licensed under the X11/MIT License
+ *   See LICENSE.md
  */
 
 /*global self */
