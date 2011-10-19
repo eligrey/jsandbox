@@ -30,16 +30,11 @@
 	var
 	jsonParse         = JSON.parse,
 	jsonStringify     = JSON.stringify,
-	jsonStringifyThis = function () {
-		return jsonStringify.call(JSON, this);
-	},
 	messageEventType  = "message",
 	
 	messageHandler = function (event) {
 		var request = event.data,
-		response = {
-			toString : jsonStringifyThis
-		};
+		response = {};
 		
 		if (typeof request === "string") { // parse JSON
 			request = jsonParse.call(JSON, request);
@@ -72,7 +67,7 @@
 		delete self.input;
 		delete self.onmessage; // in case the code defined it
 		
-		postMessage(response);
+		postMessage(jsonStringify(response));
 	};
 	
 	if (self.addEventListener) {

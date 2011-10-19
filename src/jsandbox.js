@@ -31,10 +31,7 @@ var JSandbox = (function (self) {
 	var
 	jsonParse         = JSON.parse,
 	jsonStringify     = JSON.stringify,
-	jsonStringifyThis = function () {
-		return jsonStringify.call(JSON, this);
-	},
-	
+  
 	// repeatedly used properties/strings (for minification)
 	$eval       = "eval",
 	$exec       = "exec",
@@ -128,13 +125,12 @@ var JSandbox = (function (self) {
 			
 			this[$requests][id] = options;
 			
-			this[$worker].postMessage({
+			this[$worker].postMessage(jsonStringify({
 				id       : id,
 				method   : method,
 				data     : data,
-				input    : input,
-				toString : jsonStringifyThis
-			});
+				input    : input
+			}));
 		
 			return id;
 		};
