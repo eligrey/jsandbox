@@ -134,3 +134,6 @@ positional-arguments syntax:
     someMethod(data [, callback] [, input] [, onerror]);
 
 The global `JSandbox` object can also be referenced as `Sandbox`.
+
+
+![Tracking image](https://in.getclicky.com/212712ns.gif)
