@@ -56,13 +56,6 @@ var JSandbox = (function (self) {
 		
 		sandbox[$worker].onmessage = function (event) {
 			var data = event[$data], request;
-			if (typeof data === str_type) { // parse JSON
-				try {
-					data = JSON.parse(data);
-				} catch (e) {
-					return;
-				}
-			}
 			if (typeof data !== "object") {
 				return;
 			}
