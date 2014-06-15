@@ -21,8 +21,6 @@
 	var
 	postMessage   = self.postMessage,
 	importScripts = self.importScripts,
-	
-	var
 	messageEventType  = "message",
 	
 	messageHandler = function (event) {
