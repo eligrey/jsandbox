@@ -49,7 +49,11 @@
 			
 			}
 		} catch (e) {
-			response.error = e;
+			response.error = {
+				name: e.name,
+				message: e.message,
+				stack: e.stack
+			};
 		}
 		
 		delete self.input;
