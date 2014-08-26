@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <title>JSandbox test suite</title>
-<link rel="stylesheet" type="text/css" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" title="QUnit" />
-<script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/qunit/qunit-1.15.0.css" title="QUnit" />
+<script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 <link rel="jsandbox" href="src/jsandbox-worker.js" />
 <script type="text/javascript" src="src/jsandbox.js"></script>
 </head>
@@ -26,8 +26,8 @@ asyncTest("options", function() {
 	done = 0;
 	expect(tests);
 	
-	JSandbox.eval("1+1", function(r) { equals(r, 2, "data, callback");if(++done==tests)start(); });
-	JSandbox.eval("1+input", function(r) { equals(r, 3, "input");if(++done==tests)start(); }, 2, function() { ok(false, "input");if(++done==tests)start(); });
+	JSandbox.eval("1+1", function(r) { equal(r, 2, "data, callback");if(++done==tests)start(); });
+	JSandbox.eval("1+input", function(r) { equal(r, 3, "input");if(++done==tests)start(); }, 2, function() { ok(false, "input");if(++done==tests)start(); });
 	JSandbox.exec("#SYNTAX ERROR", function() { ok(false, "onerror");if(++done==tests)start(); }, null, function() { ok(true, "onerror");if(++done==tests)start(); });
 });
 
@@ -87,7 +87,7 @@ asyncTest("instances", function() {
 	sandbox.exec("var x=input", function(r) {
 		ok(true, "exec");
 		sandbox.eval("x", function(r) {
-			equals(r, input, "lookup");
+			equal(r, input, "lookup");
 			start();
 		}, null, function (e) {alert(uneval(e));
 			ok(false, "lookup");

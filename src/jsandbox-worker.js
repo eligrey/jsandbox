@@ -49,11 +49,17 @@
 			
 			}
 		} catch (e) {
-			response.error = e;
+			response.error = {
+				name: e.name,
+				message: e.message,
+				stack: e.stack
+			};
 		}
 		
 		delete self.input;
-		delete self.onmessage; // in case the code defined it
+		if (self.onmessage) {
+			delete self.onmessage; // in case the code defined it
+		}
 		
 		postMessage(response);
 	};
