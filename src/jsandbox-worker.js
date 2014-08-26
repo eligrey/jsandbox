@@ -57,7 +57,9 @@
 		}
 		
 		delete self.input;
-		delete self.onmessage; // in case the code defined it
+		if (self.onmessage) {
+			delete self.onmessage; // in case the code defined it
+		}
 		
 		postMessage(response);
 	};
