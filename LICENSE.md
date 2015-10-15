@@ -1,7 +1,7 @@
-This software is licensed under the MIT/X11 license.
+This software is licensed under the MIT license.
 
-MIT/X11 license
----------------
+MIT license
+-----------
 
 Copyright &copy; 2010 [Elijah Grey][1], who also goes by [Eli Grey][1].
 
