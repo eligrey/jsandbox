@@ -1,5 +1,8 @@
+**DISCOUNTINUED** - Do not use
+==============================
+
 JSandbox
-========
+--------
 
 *Version 0.2.3*
 
