@@ -1,5 +1,5 @@
-**DISCOUNTINUED** - Do not use
-==============================
+**DISCONTINUED** - [Not safe](https://github.com/eligrey/jsandbox/issues/10); _Do not use_
+==========================================================================================
 
 JSandbox
 --------
